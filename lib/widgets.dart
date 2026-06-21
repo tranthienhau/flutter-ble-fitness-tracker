@@ -88,11 +88,7 @@ class StatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: const Border(left: BorderSide(color: AppColors.primary, width: 3)),
-      ),
+      decoration: AppTheme.card(accentLeft: accent),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

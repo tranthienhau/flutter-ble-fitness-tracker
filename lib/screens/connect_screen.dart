@@ -80,10 +80,10 @@ class _Header extends StatelessWidget {
     return Container(
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.outline))),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.surfaceHigh))),
       alignment: Alignment.centerLeft,
       child: Text('CONNECT SENSOR',
-          style: AppTheme.labelCaps(size: 18, color: AppColors.primary)),
+          style: AppTheme.labelCaps(size: 18, color: AppColors.primaryDeep)),
     );
   }
 }
@@ -158,12 +158,8 @@ class _SensorCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border(
-            left: BorderSide(color: connected ? AppColors.tertiary : AppColors.outline, width: 4)),
-      ),
+      decoration: AppTheme.card(
+          accentLeft: connected ? AppColors.tertiary : AppColors.outlineVariant),
       child: Row(
         children: [
           Container(

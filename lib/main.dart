@@ -16,7 +16,7 @@ class FirepawApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firepaw',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark(),
+      theme: AppTheme.light(),
       home: const HomeShell(),
     );
   }
@@ -43,10 +43,18 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           const HistoryScreen(),
         ],
       ),
-      bottomNavigationBar: NavigationBarTheme(
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.surface,
+          border: Border(top: BorderSide(color: AppColors.surfaceHigh)),
+          boxShadow: [BoxShadow(color: Color(0x0D000000), blurRadius: 12, offset: Offset(0, -4))],
+        ),
+        child: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: AppColors.surface,
-          indicatorColor: AppColors.primary.withValues(alpha: 0.18),
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          elevation: 0,
+          indicatorColor: AppColors.primary.withValues(alpha: 0.14),
           labelTextStyle: WidgetStatePropertyAll(AppTheme.labelCaps(size: 10)),
         ),
         child: NavigationBar(
@@ -61,6 +69,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             const NavigationDestination(icon: Icon(Icons.history), label: 'HISTORY'),
           ],
         ),
+      ),
       ),
     );
   }

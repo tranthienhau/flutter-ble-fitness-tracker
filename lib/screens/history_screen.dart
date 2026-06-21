@@ -22,8 +22,8 @@ class HistoryScreen extends ConsumerWidget {
           Container(
             height: 56,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.outline))),
-            child: Text('HISTORY', style: AppTheme.labelCaps(size: 18, color: AppColors.onSurface)),
+            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.surfaceHigh))),
+            child: Text('HISTORY', style: AppTheme.labelCaps(size: 18, color: AppColors.primaryDeep)),
           ),
           Expanded(
             child: ListView(
@@ -64,10 +64,7 @@ class _WeeklyCard extends StatelessWidget {
         );
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-      ),
+      decoration: AppTheme.card(),
       child: Column(
         children: [
           Padding(
@@ -120,7 +117,7 @@ class _SessionCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(14)),
+        decoration: AppTheme.card(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

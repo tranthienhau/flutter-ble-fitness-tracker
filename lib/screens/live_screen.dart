@@ -88,7 +88,7 @@ class LiveScreen extends ConsumerWidget {
                   ? FilledButton.icon(
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.error,
-                        foregroundColor: Colors.black,
+                        foregroundColor: AppColors.onError,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       ),
                       onPressed: () {
@@ -98,7 +98,7 @@ class LiveScreen extends ConsumerWidget {
                       },
                       icon: const Icon(Icons.stop_circle),
                       label: Text('FINISH WORKOUT',
-                          style: AppTheme.labelCaps(size: 14, color: Colors.black)),
+                          style: AppTheme.labelCaps(size: 14, color: AppColors.onError)),
                     )
                   : FilledButton.icon(
                       style: FilledButton.styleFrom(
@@ -127,15 +127,15 @@ class _ConnectedBar extends StatelessWidget {
     return Container(
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.outline))),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.surfaceHigh))),
       child: Row(
         children: [
-          Text('FIREPAW', style: AppTheme.labelCaps(size: 16, color: AppColors.primary)),
+          Text('FIREPAW', style: AppTheme.labelCaps(size: 16, color: AppColors.primaryDeep)),
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.surfaceHigh,
+              color: AppColors.tertiary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(mainAxisSize: MainAxisSize.min, children: [

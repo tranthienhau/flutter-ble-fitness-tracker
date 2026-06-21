@@ -16,7 +16,8 @@ class SummaryScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: Text('Session Summary', style: AppTheme.labelCaps(size: 14, color: AppColors.onSurface)),
+        surfaceTintColor: Colors.transparent,
+        title: Text('Session Summary', style: AppTheme.labelCaps(size: 14, color: AppColors.primaryDeep)),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop()),
       ),
@@ -78,7 +79,7 @@ class SummaryScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(14)),
+            decoration: AppTheme.card(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
