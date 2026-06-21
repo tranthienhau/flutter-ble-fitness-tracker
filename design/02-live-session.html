@@ -1,9 +1,366 @@
-<!DOCTYPE html><html class="dark"><head><title>Firepaw - Live Session</title>
-<!-- Shared design system (same tokens as 01-connect.html):
-     primary #ff6a00, bg #131313, tertiary #00e475, Montserrat/Inter/JetBrains Mono. -->
-</head><body>
-<!-- LIVE SESSION screen. Top bar: brand + connected sensor pill (green dot).
-     Hero: large circular speedometer gauge (orange arc) with CURRENT SPEED big number + unit.
-     Trend chip (+x.x%). Stat tiles grid: Distance, Elapsed Time, Avg Cadence, Burned (kcal).
-     Bottom: "Pause Session" + large "Finish Workout" button. See 02-live-session.png. -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>FIREPAW | Live Performance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary": "#ffffff",
+                "secondary-fixed": "#e5e2e1",
+                "surface-tint": "#a33e00",
+                "surface": "#f9f9f9",
+                "error-container": "#ffdad6",
+                "on-error": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-highest": "#e2e2e2",
+                "on-surface-variant": "#5a4136",
+                "on-secondary-container": "#636262",
+                "primary": "#a33e00",
+                "surface-bright": "#f9f9f9",
+                "surface-variant": "#e2e2e2",
+                "tertiary": "#5e5e5e",
+                "on-background": "#1a1c1c",
+                "tertiary-fixed": "#e4e2e2",
+                "on-primary-container": "#561d00",
+                "surface-container-high": "#e8e8e8",
+                "surface-dim": "#dadada",
+                "background": "#f9f9f9",
+                "inverse-on-surface": "#f1f1f1",
+                "on-surface": "#1a1c1c",
+                "on-primary-fixed": "#360f00",
+                "surface-container": "#eeeeee",
+                "primary-fixed": "#ffdbcd",
+                "secondary-container": "#e2dfde",
+                "secondary-fixed-dim": "#c8c6c5",
+                "on-tertiary-fixed-variant": "#464747",
+                "on-tertiary-container": "#2e2f2f",
+                "on-secondary": "#ffffff",
+                "inverse-surface": "#2f3131",
+                "primary-container": "#ff6600",
+                "on-tertiary-fixed": "#1b1c1c",
+                "on-error-container": "#93000a",
+                "on-secondary-fixed": "#1c1b1b",
+                "tertiary-container": "#979696",
+                "error": "#ba1a1a",
+                "tertiary-fixed-dim": "#c7c6c6",
+                "primary-fixed-dim": "#ffb596",
+                "outline-variant": "#e3bfb1",
+                "outline": "#8e7164",
+                "inverse-primary": "#ffb596",
+                "on-secondary-fixed-variant": "#474746",
+                "secondary": "#5f5e5e",
+                "surface-container-low": "#f3f3f3",
+                "on-primary-fixed-variant": "#7c2e00",
+                "on-primary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "gutter": "20px",
+                "xl": "48px",
+                "margin-desktop": "64px",
+                "xs": "4px",
+                "lg": "24px",
+                "md": "16px",
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "sm": "8px",
+                "stack-lg": "32px",
+                "stack-md": "16px",
+                "card-gap": "12px",
+                "container-padding": "24px"
+        },
+        "fontFamily": {
+                "headline-md": ["Space Grotesk"],
+                "body-lg": ["Space Grotesk"],
+                "display-lg": ["Space Grotesk"],
+                "display-lg-mobile": ["Space Grotesk"],
+                "label-sm": ["Space Grotesk"],
+                "body-md": ["Space Grotesk"],
+                "headline-lg-mobile": ["Space Grotesk"],
+                "metric-sm": ["Space Grotesk"],
+                "display-metric": ["Space Grotesk"],
+                "label-caps": ["JetBrains Mono"],
+                "title-md": ["Space Grotesk"]
+        },
+        "fontSize": {
+                "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "metric-sm": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                "display-metric": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gauge-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+        .gauge-svg {
+            transform: rotate(135deg);
+        }
+        .gauge-bg {
+            fill: none;
+            stroke: #eeeeee;
+            stroke-width: 12;
+            stroke-dasharray: 471;
+            stroke-linecap: round;
+        }
+        .gauge-progress {
+            fill: none;
+            stroke: #ff6600;
+            stroke-width: 14;
+            stroke-dasharray: 471;
+            stroke-dashoffset: 471;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease-out;
+            filter: drop-shadow(0 0 4px rgba(255, 102, 0, 0.3));
+        }
+        .state-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glow-active {
+            box-shadow: 0 4px 20px rgba(255, 102, 0, 0.3);
+        }
+        @keyframes pulse-orange {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+        .pulse-indicator {
+            animation: pulse-orange 2s infinite;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-surface">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-[60] bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-gutter py-4">
+<div class="flex items-center gap-2 hover:opacity-80 scale-95 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-primary">bolt</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-widest text-on-surface">FIREPAW</h1>
+<div class="flex items-center gap-2 hover:opacity-80 scale-95 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</div>
+</header>
+<main class="flex-grow px-container-padding pt-stack-lg pb-32 max-w-lg mx-auto w-full">
+<!-- Live Status Indicator -->
+<div class="flex items-center justify-center gap-2 mb-stack-md opacity-0 state-transition" id="live-indicator">
+<div class="w-2 h-2 rounded-full bg-primary-container pulse-indicator"></div>
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Live Session</span>
+</div>
+<!-- Speed Gauge Section -->
+<div class="flex flex-col items-center justify-center mb-stack-lg">
+<div class="gauge-container flex items-center justify-center">
+<svg class="gauge-svg w-full h-full" viewbox="0 0 200 200">
+<circle class="gauge-bg" cx="100" cy="100" r="75" stroke-dashoffset="118"></circle>
+<circle class="gauge-progress" cx="100" cy="100" id="speed-gauge" r="75" stroke-dashoffset="471"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-display-metric text-display-metric text-on-surface" id="current-speed">0.0</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant -mt-2">KM/H</span>
+</div>
+</div>
+<div class="text-center mt-stack-md state-transition" id="idle-message">
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[240px]">Ready for a high-intensity run? Tap start to begin tracking.</p>
+</div>
+</div>
+<!-- Metrics Grid (Bento Style) -->
+<div class="grid grid-cols-2 gap-card-gap mb-stack-lg">
+<!-- Distance -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">route</span>
+<span class="font-label-caps text-label-caps uppercase">Distance</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface" id="metric-distance">0.00</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">KM</span>
+</div>
+</div>
+<!-- Elapsed Time -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span class="font-label-caps text-label-caps uppercase">Time</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface" id="metric-time">00:00</span>
+</div>
+</div>
+<!-- Avg Speed -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+<span class="font-label-caps text-label-caps uppercase">Avg Speed</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface" id="metric-avg">0.0</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">KM/H</span>
+</div>
+</div>
+<!-- Max Speed -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-primary/20 flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span class="font-label-caps text-label-caps uppercase">Max Speed</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface" id="metric-max">0.0</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">KM/H</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex justify-center">
+<button class="w-full py-5 bg-primary-container text-white font-bold rounded-xl text-headline-lg-mobile tracking-widest scale-100 active:scale-95 transition-all glow-active flex items-center justify-center gap-3 shadow-lg" id="main-action">
+<span class="material-symbols-outlined" id="btn-icon" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span id="btn-text">START SESSION</span>
+</button>
+</div>
+<!-- Map Preview -->
+<div class="mt-stack-lg rounded-2xl overflow-hidden h-32 relative border border-outline-variant/30 group cursor-crosshair shadow-sm">
+<div class="absolute inset-0 bg-white/20 z-10"></div>
+<div class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[10s] group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB6M0EhJJuNeJj0460hNlLBMIDqPK7_V5Y08ffZogQHVxKWPnWMhBHZI2xJfij7aRVLpFxkBU5uyuLNh_-t7l6hxXmwOMWn3NVivDhdymwM6ErJjfYTXNP2eTEAHrT1R5xgdnHV-whIlOtX2JxFhuXEPXSDzvMO_h6WsXdP1UjZIcXDNbY6mZsLDY0zmSSwMqdxux_0VZ7qkJpuZiHZJJosx-QTcfnuz6Zo5Jg1OZWSbWhvYDImiFEd1Pf6mBApuK3MH55V6vlStEc'); filter: saturate(0.5) contrast(1.1) brightness(1.1);"></div>
+<div class="absolute inset-0 z-20 p-4 flex items-end justify-between bg-gradient-to-t from-white/60 to-transparent">
+<div>
+<p class="font-label-caps text-[10px] text-primary">GPS SIGNAL</p>
+<p class="font-title-md text-title-md text-on-surface">High Precision Locked</p>
+</div>
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pt-3 pb-safe bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 gap-1 hover:text-primary transition-colors cursor-pointer scale-98 active:scale-95">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-label-caps text-label-caps">Connect</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold gap-1 hover:text-primary transition-colors cursor-pointer scale-98 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+<span class="font-label-caps text-label-caps">Live</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 gap-1 hover:text-primary transition-colors cursor-pointer scale-98 active:scale-95">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">History</span>
+</div>
+</nav>
+<script>
+        let isRunning = false;
+        let speed = 0;
+        let time = 0;
+        let distance = 0;
+        let maxSpeed = 0;
+        let interval = null;
+
+        const btn = document.getElementById('main-action');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const liveIndicator = document.getElementById('live-indicator');
+        const idleMessage = document.getElementById('idle-message');
+        const speedDisplay = document.getElementById('current-speed');
+        const gauge = document.getElementById('speed-gauge');
+        
+        const metricDist = document.getElementById('metric-distance');
+        const metricTime = document.getElementById('metric-time');
+        const metricAvg = document.getElementById('metric-avg');
+        const metricMax = document.getElementById('metric-max');
+
+        const circumference = 471;
+        const maxGaugeSpeed = 35;
+
+        function updateGauge(val) {
+            const percentage = Math.min(val / maxGaugeSpeed, 1);
+            const offset = circumference - (percentage * (circumference - 118));
+            gauge.style.strokeDashoffset = offset;
+        }
+
+        function formatTime(s) {
+            const mins = Math.floor(s / 60);
+            const secs = s % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        btn.addEventListener('click', () => {
+            isRunning = !isRunning;
+            
+            if (isRunning) {
+                // STARTING
+                btn.classList.replace('bg-primary-container', 'bg-surface-container-high');
+                btn.classList.replace('text-white', 'text-error');
+                btn.classList.remove('glow-active');
+                btnText.textContent = 'FINISH WORKOUT';
+                btnIcon.textContent = 'stop';
+                liveIndicator.style.opacity = '1';
+                idleMessage.style.opacity = '0';
+                
+                interval = setInterval(() => {
+                    time++;
+                    speed = Math.min(34.6, Math.max(0, speed + (Math.random() - 0.45) * 4));
+                    if (speed > maxSpeed) maxSpeed = speed;
+                    distance += (speed / 3600);
+
+                    speedDisplay.textContent = speed.toFixed(1);
+                    metricDist.textContent = distance.toFixed(2);
+                    metricTime.textContent = formatTime(time);
+                    metricAvg.textContent = (distance / (time / 3600) || 0).toFixed(1);
+                    metricMax.textContent = maxSpeed.toFixed(1);
+                    
+                    updateGauge(speed);
+                }, 1000);
+            } else {
+                // STOPPING
+                clearInterval(interval);
+                btn.classList.replace('bg-surface-container-high', 'bg-primary-container');
+                btn.classList.replace('text-error', 'text-white');
+                btn.classList.add('glow-active');
+                btnText.textContent = 'START SESSION';
+                btnIcon.textContent = 'play_arrow';
+                liveIndicator.style.opacity = '0';
+                idleMessage.style.opacity = '1';
+                
+                speed = 0;
+                time = 0;
+                distance = 0;
+                maxSpeed = 0;
+                speedDisplay.textContent = "0.0";
+                updateGauge(0);
+            }
+        });
+
+        updateGauge(0);
+    </script>
 </body></html>

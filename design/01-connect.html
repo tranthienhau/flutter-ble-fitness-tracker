@@ -1,18 +1,259 @@
 <!DOCTYPE html>
-<html class="dark" lang="en"><head>
+
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Firepaw - Connect Sensor</title>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Firepaw | Connect Sensor</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e5e2e1",
+                    "surface-tint": "#a33e00",
+                    "surface": "#f9f9f9",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-surface-variant": "#5a4136",
+                    "on-secondary-container": "#636262",
+                    "primary": "#a33e00",
+                    "surface-bright": "#f9f9f9",
+                    "surface-variant": "#e2e2e2",
+                    "tertiary": "#5e5e5e",
+                    "on-background": "#1a1c1c",
+                    "tertiary-fixed": "#e4e2e2",
+                    "on-primary-container": "#561d00",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-dim": "#dadada",
+                    "background": "#f9f9f9",
+                    "inverse-on-surface": "#f1f1f1",
+                    "on-surface": "#1a1c1c",
+                    "on-primary-fixed": "#360f00",
+                    "surface-container": "#eeeeee",
+                    "primary-fixed": "#ffdbcd",
+                    "secondary-container": "#e2dfde",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed-variant": "#464747",
+                    "on-tertiary-container": "#2e2f2f",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#2f3131",
+                    "primary-container": "#ff6600",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "tertiary-container": "#979696",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#c7c6c6",
+                    "primary-fixed-dim": "#ffb596",
+                    "outline-variant": "#e3bfb1",
+                    "outline": "#8e7164",
+                    "inverse-primary": "#ffb596",
+                    "on-secondary-fixed-variant": "#474746",
+                    "secondary": "#5f5e5e",
+                    "surface-container-low": "#f3f3f3",
+                    "on-primary-fixed-variant": "#7c2e00",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "card-gap": "12px",
+                    "stack-sm": "4px",
+                    "stack-md": "16px",
+                    "container-padding": "24px",
+                    "base": "8px",
+                    "stack-lg": "32px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "metric-sm": ["Space Grotesk"],
+                    "display-metric": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "title-md": ["Space Grotesk"],
+                    "body-md": ["Space Grotesk"],
+                    "label-caps": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "metric-sm": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "display-metric": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
 <style>
-  /* Design system: primary-container #ff6a00 (orange), background #131313 (dark),
-     tertiary #00e475 (green/connected), error #ffb4ab.
-     Fonts: Montserrat (headline/stats), Inter (body), JetBrains Mono (label caps). */
-</style>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .scanning-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.2; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .orange-glow {
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.3);
+        }
+
+        .rim-light {
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+        }
+    </style>
 </head>
-<body class="bg-background text-on-background">
-<!-- DEVICE CONNECTION screen. Pulsing BLE scan icon, list of discovered Firepaw
-     sensor cards (connected/available/low-signal), bottom "Scan for Sensors" button,
-     bottom nav (Dashboard/Workout/Devices/Profile). See 01-connect.png for full render. -->
+<body class="min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden bg-surface">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b border-surface-variant flex justify-between items-center px-gutter py-4 transition-all duration-200">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-lg-mobile transition-transform active:scale-90" data-icon="bolt">bolt</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-widest text-primary">FIREPAW</h1>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 scale-95 active:scale-90 transition-transform" data-icon="settings">settings</button>
+</header>
+<main class="flex-1 flex flex-col px-container-padding pb-32">
+<!-- Hero Scanning Section -->
+<section class="mt-stack-lg flex flex-col items-center justify-center py-stack-lg">
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- Animation Visual -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none" id="scan-animation">
+<div class="absolute w-full h-full rounded-full border border-primary/10 scanning-pulse"></div>
+<div class="absolute w-3/4 h-3/4 rounded-full border border-primary/20 scanning-pulse" style="animation-delay: 0.5s"></div>
+</div>
+<button class="relative z-10 w-48 h-48 rounded-full bg-primary-container text-white flex flex-col items-center justify-center gap-2 orange-glow transition-all duration-300 hover:scale-105 active:scale-95" id="scan-trigger">
+<span class="material-symbols-outlined text-4xl" data-icon="sensors" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Scan for Sensors</span>
+</button>
+</div>
+<div class="mt-stack-md text-center">
+<p class="text-primary font-title-md text-title-md" id="status-text">Ready to synchronize</p>
+<p class="text-on-secondary-container opacity-80 text-sm mt-1">Keep your Firepaw hardware within 3 feet</p>
+</div>
+</section>
+<!-- Discovered Devices Area -->
+<section class="mt-stack-lg flex flex-col gap-card-gap">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Nearby Devices</h2>
+<span class="font-label-caps text-label-caps text-primary">2 Found</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-card-gap mt-4">
+<!-- Device Card 1 -->
+<div class="glass-card rim-light p-gutter rounded-xl flex items-center justify-between group cursor-pointer hover:bg-surface-container transition-all shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Firepaw Sensor #A3</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="font-label-caps text-[10px] text-on-secondary-container">SIGNAL STRENGTH: 98%</span>
+</div>
+</div>
+</div>
+<button class="bg-primary-container text-white px-4 py-2 rounded-full font-label-caps text-label-caps hover:opacity-90 active:scale-95 transition-all shadow-md shadow-primary/20">
+                        Pair
+                    </button>
+</div>
+<!-- Device Card 2 -->
+<div class="glass-card rim-light p-gutter rounded-xl flex items-center justify-between group cursor-pointer hover:bg-surface-container transition-all shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-lg flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface opacity-70">Firepaw Legacy #12</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-surface-dim"></span>
+<span class="font-label-caps text-[10px] text-on-secondary-container">SIGNAL STRENGTH: 42%</span>
+</div>
+</div>
+</div>
+<button class="border border-outline text-on-surface px-4 py-2 rounded-full font-label-caps text-label-caps hover:bg-surface-variant active:scale-95 transition-all">
+                        Pair
+                    </button>
+</div>
+</div>
+</section>
+<!-- Aesthetic Imagery / Context Card -->
+<section class="mt-stack-lg rounded-2xl overflow-hidden relative h-48 rim-light shadow-lg">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="Close-up artistic macro photography of a sleek, black carbon fiber athletic sensor with a glowing orange Firepaw bolt logo on a dark, rainy asphalt training track at night. Cinematic lighting and high contrast." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMWZDFWGgyW6gJoteQlmitqmzM_ISfVlF-jxaFr4C-ToUue6ZOWUaLosL2JJs7zlTaD55-SGV4i5YatVJYN-NICl18pY4evy_yX0qzZObC5baFYJyTioFAZGtsmg9Ee6U19DsLHgn32y1b7NC8dVeaar9hS5xVWwXsOPUFOSlQgAnGpr6utDmDgbhlCIpgU09zfWSk5o1VMfs6OX0RXnvQdWe5Pu2LLjphDA1SDJLHN8t2vKRVBpj_Kji0kNy-pNTWEePP4m4Qj5Q')"></div>
+<div class="absolute bottom-4 left-4 z-20 flex flex-col">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim">Pro Tip</span>
+<p class="text-white font-title-md text-title-md max-w-[240px]">Firmware v2.4 now supports ultra-low latency tracking.</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-t border-surface-variant flex justify-around items-center px-gutter pt-3 pb-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-primary font-bold gap-1 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="sensors" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-label-caps text-label-caps">Connect</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container opacity-60 gap-1 hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="speed">speed</span>
+<span class="font-label-caps text-label-caps">Live</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container opacity-60 gap-1 hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps">History</span>
+</a>
+</nav>
+<!-- Micro-interactions Script -->
+<script>
+        const scanBtn = document.getElementById('scan-trigger');
+        const statusTxt = document.getElementById('status-text');
+        const animation = document.getElementById('scan-animation');
+        let isScanning = false;
+
+        scanBtn.addEventListener('click', () => {
+            if (!isScanning) {
+                isScanning = true;
+                statusTxt.innerText = 'Scanning for devices...';
+                statusTxt.classList.add('animate-pulse');
+                animation.classList.remove('hidden');
+                
+                // Mock scanning delay
+                setTimeout(() => {
+                    isScanning = false;
+                    statusTxt.innerText = 'Scan complete';
+                    statusTxt.classList.remove('animate-pulse');
+                    statusTxt.classList.add('text-green-600');
+                    setTimeout(() => {
+                        statusTxt.innerText = 'Ready to synchronize';
+                        statusTxt.classList.remove('text-green-600');
+                    }, 3000);
+                }, 4000);
+            }
+        });
+    </script>
 </body></html>

@@ -1,8 +1,295 @@
-<!DOCTYPE html><html class="dark"><head><title>Firepaw - Session Summary</title>
-<!-- Shared design system (see 01-connect.html). -->
-</head><body>
-<!-- SESSION SUMMARY screen. Top bar back + "Session Summary". Trophy + "Workout Complete".
-     2x2 stat grid: Total Distance, Duration, Avg Speed, Max Speed.
-     "Speed Over Time" orange line chart. Active dog profile row.
-     Bottom: "Delete" + "Done" buttons. See 04-summary.png. -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Firepaw | Session Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Hanken+Grotesk:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .glow-orange {
+            box-shadow: 0 4px 20px rgba(163, 62, 0, 0.15);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e5e2e1",
+                        "surface-tint": "#a33e00",
+                        "surface": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface-variant": "#5a4136",
+                        "on-secondary-container": "#636262",
+                        "primary": "#a33e00",
+                        "surface-bright": "#f9f9f9",
+                        "surface-variant": "#e2e2e2",
+                        "tertiary": "#5e5e5e",
+                        "on-background": "#1a1c1c",
+                        "tertiary-fixed": "#e4e2e2",
+                        "on-primary-container": "#561d00",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-dim": "#dadada",
+                        "background": "#f9f9f9",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#360f00",
+                        "surface-container": "#eeeeee",
+                        "primary-fixed": "#ffdbcd",
+                        "secondary-container": "#e2dfde",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "on-tertiary-container": "#2e2f2f",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "primary-container": "#ff6600",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "tertiary-container": "#979696",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "primary-fixed-dim": "#ffb596",
+                        "outline-variant": "#e3bfb1",
+                        "outline": "#8e7164",
+                        "inverse-primary": "#ffb596",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary": "#5f5e5e",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#7c2e00",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "card-gap": "12px",
+                        "stack-sm": "4px",
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "base": "8px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "metric-sm": ["Space Grotesk"],
+                        "display-metric": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "title-md": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "metric-sm": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "display-metric": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary min-h-screen flex flex-col items-center overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky bg-background border-b border-surface-variant z-[100]">
+<div class="flex justify-between items-center px-gutter py-4 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-widest text-primary">FIREPAW</span>
+</div>
+<button class="hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<main class="w-full max-w-md flex flex-col gap-stack-lg px-container-padding py-stack-md pb-40">
+<!-- Hero Header -->
+<section class="flex flex-col items-center text-center pt-base">
+<div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mb-stack-md glow-orange">
+<span class="material-symbols-outlined text-on-primary text-4xl" data-icon="trophy" style="font-variation-settings: 'FILL' 1;">trophy</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase tracking-tight">Workout Complete</h1>
+<p class="font-body-md text-body-md text-on-surface-variant/70 mt-1">High intensity session locked in.</p>
+</section>
+<!-- Primary Metric Bento Grid -->
+<section class="grid grid-cols-2 gap-card-gap">
+<!-- Distance -->
+<div class="glass-card p-4 rounded-xl flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="straighten">straighten</span>
+<span class="font-label-caps text-label-caps opacity-80 uppercase">Distance</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface">5.82</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">KM</span>
+</div>
+</div>
+<!-- Duration -->
+<div class="glass-card p-4 rounded-xl flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="timer">timer</span>
+<span class="font-label-caps text-label-caps opacity-80 uppercase">Duration</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface">42:15</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">MIN</span>
+</div>
+</div>
+<!-- Avg Speed -->
+<div class="glass-card p-4 rounded-xl flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="avg_pace">avg_pace</span>
+<span class="font-label-caps text-label-caps opacity-80 uppercase">Avg Speed</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-on-surface">8.4</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">KM/H</span>
+</div>
+</div>
+<!-- Max Speed -->
+<div class="glass-card p-4 rounded-xl flex flex-col gap-1 bg-primary/5 border-primary/20">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="speed">speed</span>
+<span class="font-label-caps text-label-caps opacity-80 uppercase">Max Speed</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-metric-sm text-metric-sm text-primary">12.1</span>
+<span class="font-label-caps text-[10px] text-primary uppercase">KM/H</span>
+</div>
+</div>
+</section>
+<!-- Route Visualization -->
+<section class="w-full h-48 rounded-2xl overflow-hidden relative border border-surface-variant">
+<div class="w-full h-full bg-cover bg-center contrast-75 brightness-110" data-alt="A clean, light-themed map view of a city park with a vibrant orange GPS path overlay. Minimalist style with soft grays and white roads, highlighted by a clear, energetic orange route line." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAlMpa_9iMP6slbfZxIOn53QcSsrhLlrcw2VSQZ3S4ZEtjNjNG909hMFKKE0ZEgFdELLOOMwPODfuQWs97HD-pUcqYkwfBTeGO1-vKfJzFuv0ZVfOXGtj9wkPf26ELotQfTN-fKKmNqQ3yeiGEb7rVVzPRSTy85tiWs7yDCh-YyVXdfRIpZqbWjJ6nyLyd_p95MKL6JhN_IUa-F2T9yfUitYyyIW8vrys1l0b9WQSurk4HdUE_MrQG64AL_EDrhyRuaXf98Ar-gje0')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2 bg-surface/90 backdrop-blur px-3 py-1.5 rounded-full border border-surface-variant shadow-sm">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="location_on">location_on</span>
+<span class="font-label-caps text-[10px] text-on-surface uppercase font-bold">Park Central Circuit</span>
+</div>
+</section>
+<!-- Speed Over Time Chart -->
+<section class="glass-card p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">Speed Over Time</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">Sessions / Min</span>
+</div>
+<div class="h-32 w-full relative flex items-end gap-1">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 100 40">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#ff6600" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#ff6600" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 35 Q 10 30, 20 25 T 40 15 T 60 20 T 80 5 T 100 10 V 40 H 0 Z" fill="url(#chartGradient)"></path>
+<path d="M0 35 Q 10 30, 20 25 T 40 15 T 60 20 T 80 5 T 100 10" fill="none" stroke="#ff6600" stroke-width="2"></path>
+<circle cx="80" cy="5" fill="#ff6600" r="2.5"></circle>
+</svg>
+<div class="absolute -left-2 top-0 h-full flex flex-col justify-between text-[8px] font-mono text-on-surface-variant/40 pointer-events-none">
+<span>15</span>
+<span>10</span>
+<span>5</span>
+<span>0</span>
+</div>
+</div>
+<div class="flex justify-between font-label-caps text-[10px] text-on-surface-variant/60 px-2 uppercase">
+<span>0m</span>
+<span>10m</span>
+<span>20m</span>
+<span>30m</span>
+<span>40m</span>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-t border-surface-variant px-container-padding pt-6 pb-10 flex gap-4">
+<button class="flex-1 h-14 rounded-xl border border-outline/30 text-on-surface font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+            DELETE
+        </button>
+<button class="flex-[2] h-14 bg-primary-container rounded-xl text-on-primary font-label-caps text-label-caps font-bold flex items-center justify-center gap-2 glow-orange hover:opacity-95 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            DONE
+        </button>
+</div>
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('touchstart', () => {
+                btn.style.transform = 'scale(0.96)';
+            });
+            btn.addEventListener('touchend', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'fixed inset-0 pointer-events-none opacity-10 z-0';
+        document.body.prepend(canvas);
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        const particles = [];
+        for (let i = 0; i < 20; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.1,
+                vy: (Math.random() - 0.5) * 0.1,
+                size: Math.random() * 3
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#a33e00';
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body></html>
